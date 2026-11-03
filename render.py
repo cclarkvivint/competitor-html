@@ -33,6 +33,19 @@ SLIM_JS = """() => {
   c.querySelectorAll(
     '#onetrust-consent-sdk, #onetrust-banner-sdk, #onetrust-pc-sdk, [class*="ot-sdk"], [id*="onetrust"]'
   ).forEach(e => e.remove());
+    // Remove the bot-challenge block: find the heading, then remove its enclosing container
+  c.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach(h => {
+    if (/pardon (the|our) interruption/i.test(h.textContent || '')) {
+      let box = h;
+      // Walk up while the parent holds little other text (so we remove the whole card,
+      // but never a big page wrapper)
+      while (box.parentElement && box.parentElement !== c.querySelector('body') &&
+             (box.parentElement.textContent || '').length < 1500) {
+        box = box.parentElement;
+      }
+      box.remove();
+    }
+  });
   return '<!DOCTYPE html>' + c.outerHTML;
 }"""
 
