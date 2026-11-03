@@ -1,7 +1,7 @@
 name: Refresh competitor HTML
 on:
   schedule:
-    - cron: "13 21 3 11 *"   # 1st of each month, 12:00 UTC
+    - cron: "20 21 3 11 *"   # 1st of each month, 12:00 UTC
   workflow_dispatch: {}     # manual "Run workflow" button
 
 permissions:
