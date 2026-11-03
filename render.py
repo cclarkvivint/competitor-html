@@ -23,6 +23,16 @@ SLIM_JS = """() => {
       if (a.name.startsWith('data-') && a.name !== 'data-bg' && a.value.length > 800) el.removeAttribute(a.name);
     });
   });
+    // Privacy and cookie controls (matched by their text, so no class names are needed)
+  const PRIVACY = /do not sell|do not share|your privacy choices|cookie (settings|preferences|policy|notice)|manage cookies/i;
+  c.querySelectorAll('button, a, [role="button"]').forEach(e => {
+    const t = (e.textContent || '').trim();
+    if (t.length < 80 && PRIVACY.test(t)) e.remove();
+  });
+  // Consent-tool containers (OneTrust is what SimpliSafe loads)
+  c.querySelectorAll(
+    '#onetrust-consent-sdk, #onetrust-banner-sdk, #onetrust-pc-sdk, [class*="ot-sdk"], [id*="onetrust"]'
+  ).forEach(e => e.remove());
   return '<!DOCTYPE html>' + c.outerHTML;
 }"""
 
